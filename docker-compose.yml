@@ -147,7 +147,10 @@ services:
 
   langfuse-minio:
     profiles: ["observability"]
-    image: docker.io/minio/minio
+    # docker.io/minio/minio foi removido do Docker Hub em set/2026 (MinIO arquivou o
+    # projeto e parou de publicar imagens públicas). Este é o espelho gratuito mantido
+    # pela Chainguard, com o mesmo binário e o `mc` usado no healthcheck abaixo.
+    image: docker.io/chainguard/minio:latest
     container_name: fc-langfuse-minio
     restart: unless-stopped
     entrypoint: sh

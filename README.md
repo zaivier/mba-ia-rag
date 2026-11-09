@@ -61,6 +61,9 @@ Por isso o planner lista **todos** os tipos de documento que podem servir, não 
 preço de um plano mora tanto no `policy` quanto no `plan`), e deixa a lista vazia quando
 não tem certeza — sem filtro de tipo é melhor do que com o filtro errado.
 
+> **Atalho:** todos os comandos abaixo têm um alvo no `Makefile` (`make` lista o catálogo)
+> e a sequência recomendada está em [GUIA_EXECUCAO.md](GUIA_EXECUCAO.md).
+
 ## Requisitos
 
 - Python 3.11+
@@ -536,7 +539,9 @@ app/
   chat.py          # chat sem RAG (comparação)
   context_chat.py  # chat com um documento inteiro no prompt (comparação)
 knowledge_base/    # os documentos Markdown com front matter
-test.http          # requests prontos para a extensão REST Client
+test.http          # requests prontos para a extensão REST Client (todas as rotas)
+Makefile           # um alvo por funcionalidade (make = catálogo)
+GUIA_EXECUCAO.md   # sequência recomendada de execução
 docker-compose.yml
 requirements.txt
 .env.example
