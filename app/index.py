@@ -5,10 +5,10 @@ from pathlib import Path
 
 from langchain_core.documents import Document
 from langchain_openai import OpenAIEmbeddings
-from langchain_postgres import PGEngine, PGVectorStore
+from langchain_postgres import PGVectorStore
 
 from app.config import settings
-from app.db import enable_vector_extension, get_connection
+from app.db import create_pg_engine, enable_vector_extension, get_connection
 from app.ingest import OUTPUT_PATH as CHUNKS_PATH
 from app.manifest import MANIFEST_PATH, load_manifest, save_manifest
 
@@ -91,7 +91,7 @@ def table_exists() -> bool:
 
 
 def connect_store(embeddings: OpenAIEmbeddings, create_table: bool) -> PGVectorStore:
-    engine = PGEngine.from_connection_string(url=settings.database_url)
+    engine = create_pg_engine()
     if create_table:
         # The table column size must match the embedding model, so ask the
         # model for one embedding to learn its vector dimension.

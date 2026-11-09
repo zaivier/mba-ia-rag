@@ -75,6 +75,12 @@ terminal (`app/rag_chat.py`) e a API HTTP (`app/api.py`).
    python -m app.main
    ```
 
+> **Windows:** o `PGEngine` do `langchain-postgres` usa o psycopg em modo async, que não
+> funciona com o `ProactorEventLoop` (padrão do asyncio no Windows). Por isso a aplicação
+> cria o engine com `create_pg_engine()` (`app/db.py`), que passa um `SelectorEventLoop`
+> explícito ao `PGEngine`, sem alterar a política global do asyncio (deprecada no
+> Python 3.14).
+
 ## Preparando a base
 
 ```bash

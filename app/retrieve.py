@@ -4,10 +4,10 @@ import sys
 import psycopg
 from langchain_core.documents import Document
 from langchain_openai import OpenAIEmbeddings
-from langchain_postgres import PGEngine, PGVectorStore
+from langchain_postgres import PGVectorStore
 
 from app.config import settings
-from app.db import get_connection
+from app.db import create_pg_engine, get_connection
 from app.index import ID_COLUMN, TABLE_NAME
 
 DEFAULT_TOP_K = 30
@@ -48,7 +48,7 @@ def connect_store() -> PGVectorStore:
         model=settings.openai_embedding_model,
         api_key=settings.openai_api_key,
     )
-    engine = PGEngine.from_connection_string(url=settings.database_url)
+    engine = create_pg_engine()
     return PGVectorStore.create_sync(
         engine=engine,
         embedding_service=embeddings,
