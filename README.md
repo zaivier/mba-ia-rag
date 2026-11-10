@@ -14,17 +14,20 @@ fontes de cada resposta.
 ## Setup
 
 ```bash
-cp .env.example .env          # e preencha OPENAI_API_KEY
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-docker compose --profile observability up -d
-python -m app.ingest && python -m app.index
+make setup                    # .env + venv + dependências; preencha OPENAI_API_KEY no .env
+make db-up                    # Postgres com pgvector
+make prepare                  # ingest + index
 ```
 
 ```bash
-python -m app.rag_chat                    # o chat no terminal
-uvicorn app.api:app --reload              # a API HTTP
+make chat                     # o chat no terminal
+make api                      # a API HTTP (exemplos em test.http)
 ```
+
+`make` lista todos os comandos. A ordem recomendada, com custo e pré-requisitos de cada
+passo, está em [docs/execution-guide.md](docs/execution-guide.md). Os equivalentes sem
+`make` (`python -m app.ingest`, `uvicorn app.api:app --reload`, …) estão em
+[docs/pipeline.md](docs/pipeline.md).
 
 ## O que este repositório é
 
@@ -71,6 +74,7 @@ experiments salvam relatório em `data/eval_runs/`.
 
 | | |
 | --- | --- |
+| [docs/execution-guide.md](docs/execution-guide.md) | quais comandos do `make` rodar, em que ordem, e o que cada um custa |
 | [docs/pipeline.md](docs/pipeline.md) | como o RAG funciona: ingestão, planner, retrieval, rerank, observabilidade, governança |
 | [docs/evaluation.md](docs/evaluation.md) | as cinco camadas de avaliação, em detalhe |
 

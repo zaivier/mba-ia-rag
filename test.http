@@ -1,7 +1,21 @@
+# Exemplos de todas as rotas da API (extensão REST Client do VS Code).
+# Suba a API antes:  make api
+#
+# Rotas escritas no código (app/api.py):  GET /health  e  POST /chat
+# Rotas que o FastAPI gera sozinho:       GET /docs, /redoc, /openapi.json
+
 @baseUrl = http://127.0.0.1:8000
+
+############################################################
+# GET /health
+############################################################
 
 ### Health check
 GET {{baseUrl}}/health
+
+############################################################
+# POST /chat
+############################################################
 
 ### Chat: question with an answer
 POST {{baseUrl}}/chat
@@ -30,6 +44,14 @@ Content-Type: application/json
   "debug": true
 }
 
+### Chat: no plan named (answer covers the three plans)
+POST {{baseUrl}}/chat
+Content-Type: application/json
+
+{
+  "question": "O que acontece se eu ultrapassar a cota de ingestão?"
+}
+
 ### Chat: ambiguous question (returns needs_clarification=true)
 POST {{baseUrl}}/chat
 Content-Type: application/json
@@ -38,7 +60,7 @@ Content-Type: application/json
   "question": "Como funciona o suporte no plano da empresa?"
 }
 
-### Chat: answer not in the knowledge base
+### Chat: answer not in the knowledge base (returns has_answer=false)
 POST {{baseUrl}}/chat
 Content-Type: application/json
 
@@ -53,3 +75,24 @@ Content-Type: application/json
 {
   "question": "   "
 }
+
+### Chat: missing "question" field (returns 422, validation by FastAPI)
+POST {{baseUrl}}/chat
+Content-Type: application/json
+
+{
+  "debug": true
+}
+
+############################################################
+# Rotas geradas pelo FastAPI (documentação interativa)
+############################################################
+
+### Swagger UI (abra no navegador)
+GET {{baseUrl}}/docs
+
+### ReDoc (abra no navegador)
+GET {{baseUrl}}/redoc
+
+### OpenAPI schema (JSON)
+GET {{baseUrl}}/openapi.json

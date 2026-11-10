@@ -1,6 +1,16 @@
+import asyncio
+import sys
+
 import psycopg
 
 from app.config import settings
+
+# Windows runs asyncio on the ProactorEventLoop by default, and psycopg refuses to use
+# it in async mode. langchain_postgres (PGEngine) opens its connections from a loop it
+# creates itself, so the policy has to be set before that loop exists: importing this
+# module, which every PGEngine user does first, is early enough.
+if sys.platform == "win32" and hasattr(asyncio, "WindowsSelectorEventLoopPolicy"):
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 
 def get_connection() -> psycopg.Connection:
