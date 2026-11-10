@@ -46,7 +46,8 @@ EVAL_FLAGS = $(if $(LIMIT),--limit $(LIMIT)) $(if $(CASE),--case-id $(CASE)) $(A
 
 # ------------------------------------------------------------------------ ajuda
 
-# Texto de ajuda via $(info): nao depende de shell nem do comando echo, que
+help:
+	@echo RAG Knowledge Chat - alvos por func# Texto de ajuda via $(info): nao depende de shell nem do comando echo, que
 # nao existe fora do sh (o make do Windows executa as receitas sem shell).
 define HELP_TEXT
 RAG Knowledge Chat - alvos por funcionalidade
